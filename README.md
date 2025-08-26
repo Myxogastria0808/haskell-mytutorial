@@ -66,17 +66,28 @@ direnv allow
 3. create a stack project
 
 ```sh
-stack new my-project
-cd my-project
+stack new repository-name --bare
+```
+
+4. update `.gitignore`
+
+```
+# Nix
+/.direnv
+
+# Haskell
+.stack-work/
+*~
+
 ```
 
 ## Build and Run
 
-`stack exec` command require `<project-name>-exe`.
+`stack exec` command require `<repository-name>-exe`.
 
 ```sh
 stack build
-stack exec my-project-exe
+stack exec repository-name-exe
 ```
 
 ## Test
