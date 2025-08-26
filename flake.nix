@@ -15,7 +15,7 @@
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            stack
+            ghc
             haskell-language-server
           ];
         };

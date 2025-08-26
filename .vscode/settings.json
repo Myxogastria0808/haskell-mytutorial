@@ -1,0 +1,9 @@
+{
+  "[haskell]": {
+    "editor.defaultFormatter": "haskell.haskell",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "haskell.manageHLS": "PATH",
+  "haskell.plugin.semanticTokens.globalOn": true
+}
