@@ -48,6 +48,8 @@ direnv allow
 
 2. set `.vscode/settings.json`
 
+`"haskell.manageHLS": "PATH",` is the most important setting.
+
 ```json
 {
   "[haskell]": {
@@ -55,7 +57,7 @@ direnv allow
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
   },
-  "haskell.manageHLS": "PATH", // <- It's important term
+  "haskell.manageHLS": "PATH",
   "haskell.plugin.semanticTokens.globalOn": true,
   "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
 }
