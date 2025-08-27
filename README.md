@@ -66,8 +66,8 @@ direnv allow
 3. create a stack project
 
 ```sh
-stack new <repository-name>
-cd <repository-name>
+stack new <project-name>
+cd <project-name>
 ```
 
 4. update `.gitignore`
@@ -84,11 +84,11 @@ cd <repository-name>
 
 ## Build and Run
 
-`stack exec` command require `<repository-name>-exe`.
+`stack exec` command require `<project-name>-exe`.
 
 ```sh
 stack build
-stack exec <repository-name>-exe
+stack exec <project-name>-exe
 ```
 
 ## Test
