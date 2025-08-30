@@ -96,3 +96,9 @@ stack exec <project-name>-exe
 ```sh
 stack test
 ```
+
+## Reference
+
+- basis
+
+https://www.tohoho-web.com/ex/haskell.html#types
