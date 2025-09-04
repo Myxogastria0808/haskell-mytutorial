@@ -1,4 +1,10 @@
+{-# LANGUAGE BlockArguments #-}
+
 module Main (main) where
+
+import Control.Monad.RWS.Strict (MonadState (put))
+import GHC.Base (VecElem (Int16ElemRep))
+import Text.Read (Lexeme (Char, String))
 
 main :: IO ()
 main = do
@@ -6,6 +12,9 @@ main = do
   io
   myBlock
   variable
+  numberPattern
+  charPattern
+  listPattern
 
 -- 一行コメントアウト
 {-
@@ -19,6 +28,7 @@ main = do
 -}
 myBlock :: IO ()
 myBlock = do
+  putStrLn "Block sample"
   putStrLn "Red"
   putStrLn "Green"
   putStrLn "Blue"
@@ -36,7 +46,7 @@ myBlock = do {
 io :: IO ()
 io = do
   -- Input
-  putStrLn "Input sample: "
+  putStrLn "Input sample"
   putChar 'a' -- 文字の出力する
   putStr "ABC" -- 文字列を改行無しで出力する
   putStrLn "Hello, World!" -- 文字列を改行ありで出力する
@@ -84,4 +94,64 @@ variable = do
       y :: Int
       x = 123
       y = 456
+  putStrLn "Variable sample"
   print (x + y)
+
+-- 数値
+numberPattern :: IO ()
+numberPattern = do
+  let decNum = 123 -- 10進数
+      octNum = 0o123 -- 8進数
+      hexNum = 0x123 -- 16進数
+      floatNum = 1.23 -- 単精度浮動小数点数
+      floatNum2 = 1.23e10 -- 単精度浮動小数点数 (指数表現)
+   in do
+        putStrLn "Number pattern sample"
+        print decNum
+        print octNum
+        print hexNum
+        print floatNum
+        print floatNum2
+
+-- 文字
+charPattern :: IO ()
+charPattern = do
+  let char1 = 'a' -- 半角英数字記号
+      char2 = 'あ' -- Unicode文字
+      char3 = '\x3042' -- Unicode文字 (あ)
+   in do
+        putStrLn "Character pattern sample"
+        print char1
+        print char2
+        print char3
+
+-- 文字列
+stringPattern :: IO ()
+stringPattern = do
+  let str :: String
+      -- 文字列を複数行に分割できる
+      str =
+        "Hello, \
+        \World!"
+   in do
+        putStrLn "String pattern sample"
+        print str
+
+-- リスト
+listPattern :: IO ()
+listPattern = do
+  putStrLn "List pattern sample"
+  let lst1 = [1, 2, 3] -- 基本のパターン
+      lst2 = [1 .. 3] -- = [1, 2, 3] (範囲指定)
+      lst3 = [3, 2 .. 1] -- = [3, 2, 1] (範囲指定)
+      lst4 = [1, 3 .. 9] -- = [1, 3, 5, 7, 9] (範囲指定 + ステップ指定)
+      lst5 = ['a', 'b', 'c'] -- 基本のパターン
+      lst6 = ['a' .. 'c'] -- = ['a', 'b', 'c'] (範囲指定)
+      elm1 = [1, 2, 3, 4] !! 2 -- リストの要素にアクセス (0始まり)
+  print lst1
+  print lst2
+  print lst3
+  print lst4
+  print lst5
+  print lst6
+  print elm1
