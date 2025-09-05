@@ -1,6 +1,9 @@
-module Formula (casePattern, guardPattern, ifPattern, letArea, whereArea) where
+module Formula (formula, casePattern, guardPattern, ifPattern, letArea, whereArea) where
 
 import Prelude hiding (pi)
+
+formula :: IO ()
+formula = putStrLn "-- Formula --"
 
 -- パターンマッチング (case式)
 -- 式の値をパターンマッチングする仕組み
