@@ -1,5 +1,5 @@
 # tutorial
-
+# nix-flakes-haskell
 
 ## Setup
 
@@ -102,19 +102,15 @@ cradle:
 
 ## Build and Exec
 
-`stack exec` command require `<package-name>-exe`.
-
 ```sh
 stack build
-stack exec <package-name>-exe
+stack exec <package-name>
 ```
 
 ## Run
 
-`stack exec` command require `<package-name>-exe`.
-
 ```sh
-stack run <project-name>:exe:<package-name>-exe
+stack run <project-name>:exe:<package-name>
 ```
 
 ## Test
