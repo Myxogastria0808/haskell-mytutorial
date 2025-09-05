@@ -1,4 +1,5 @@
-# Haskell Tutorial
+# tutorial
+
 
 ## Setup
 
@@ -8,29 +9,30 @@
 
 ```nix
 {
-  description = "haskell-mytutorial";
+  description = "haskell flake sample";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs =
-    inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
-      system:
+  outputs = { self, nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
-      in
-      {
+        pkgs = import nixpkgs { inherit system; };
+        haskellPackages = with pkgs.haskell.packages.ghc9102; [
+          ghc
+          haskell-language-server
+          implicit-hie
+        ];
+      in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             stack
-            ghc
-            haskell-language-server
-          ];
+            cabal-install
+          ] ++ haskellPackages;
         };
-      }
-    );
+      });
 }
 ```
 
@@ -66,8 +68,7 @@ direnv allow
 3. create a stack project
 
 ```sh
-stack new <project-name>
-cd <project-name>
+stack new <package-name> simple --bare
 ```
 
 4. update `.gitignore`
@@ -79,16 +80,41 @@ cd <project-name>
 # Haskell
 .stack-work/
 *~
-
 ```
 
-## Build and Run
+5. generate `hie.yaml`
 
-`stack exec` command require `<project-name>-exe`.
+> [!WARNING]
+> Be aware that the project name in the generated hie.yaml file may sometimes be incorrect.
+
+```sh
+gen-hie > hie.yaml
+```
+
+- correct `hie.yaml`
+
+```yaml
+cradle:
+  stack:
+    - path: "./src/Main.hs"
+      component: "<project-name>:exe:<package-name>"
+```
+
+## Build and Exec
+
+`stack exec` command require `<package-name>-exe`.
 
 ```sh
 stack build
-stack exec <project-name>-exe
+stack exec <package-name>-exe
+```
+
+## Run
+
+`stack exec` command require `<package-name>-exe`.
+
+```sh
+stack run <project-name>:exe:<package-name>-exe
 ```
 
 ## Test
@@ -96,13 +122,3 @@ stack exec <project-name>-exe
 ```sh
 stack test
 ```
-
-## Reference
-
-- basis
-
-http://walk.northcol.org/haskell/
-
-- sample
-
-https://www.tohoho-web.com/ex/haskell.html#types

@@ -1,4 +1,4 @@
-# Changelog for `basis`
+# Changelog for `tutorial`
 
 All notable changes to this project will be documented in this file.
 
