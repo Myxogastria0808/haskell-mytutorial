@@ -1,157 +1,177 @@
-{-# LANGUAGE BlockArguments #-}
-
 module Main (main) where
 
-import Control.Monad.RWS.Strict (MonadState (put))
-import GHC.Base (VecElem (Int16ElemRep))
-import Text.Read (Lexeme (Char, String))
+{-
+参考サイト
+http://walk.northcol.org/haskell/
+-}
 
 main :: IO ()
 main = do
-  putStrLn "Hello, World!"
-  io
-  myBlock
+  helloWorld
+  layoutPattern
   variable
-  numberPattern
-  charPattern
-  listPattern
+  printAdd
+
+-- IOアクションを返すmain関数
+-- ※ 明示的に型宣言を書いているが、推論されるときもある
+-- (ただ、書かないとWarningが出る)
+helloWorld :: IO ()
+-- putStrLnに文字列を適用している
+{-
+※関数型プログラミングでは、関数を「呼び出す (call)」ではなく、
+「適用する (apply)」と言った方が好まれる
+-}
+helloWorld = putStrLn "Hello, World!"
 
 -- 一行コメントアウト
 {-
   複数行コメントアウト
+  {- ネストさせることも可能 -}
 -}
 
 -- ブロック
+-- 複数の式をまとめて1つの式にする構文
 {-
-複数の式を一つの式として扱います。doとブロックを組み合わせることで、
-複数の式を実行することができる。
--}
-myBlock :: IO ()
-myBlock = do
-  putStrLn "Block sample"
-  putStrLn "Red"
-  putStrLn "Green"
-  putStrLn "Blue"
+ブロックを導入するキーワードとして、
+`do`、`where`、`let`、`of` などがある
 
-{-
-以下のように書くこともできる。
-myBlock = do {
-    putStrLn "Red"；
-    putStrLn "Green"；
-    putStrLn "Blue"；
-  }
+blockPattern = do { putStrLn "morning"; putStrLn "afternoon"; putStrLn "night" }
+{- 一行であれば { } を省略できる -}
+blockPattern = do putStrLn "morning"； putStrLn "afternoon"； putStrLn "night"
 -}
 
--- 入出力
-io :: IO ()
-io = do
-  -- Input
-  putStrLn "Input sample"
-  putChar 'a' -- 文字の出力する
-  putStr "ABC" -- 文字列を改行無しで出力する
-  putStrLn "Hello, World!" -- 文字列を改行ありで出力する
-  print "ABC" -- 任意の型の値を改行付きで出力する (デバッグ用)
-  -- Output
-  -- putStrLn "Output sample: "
-  -- x <- getChar -- 文字の入力を受け取る
-  -- putStrLn ("You entered: " ++ [x])
-  -- y <- getLine -- 文字列の入力を受け取る
-  -- putStrLn ("You entered: " ++ y)
-  -- z <- getContents -- 標準入力からEOFまで読み込む
-  -- putStrLn ("You entered: " ++ z)
-
--- 型
+-- レイアウト
+-- ブロックをインデントのレベルで表現する仕組み (Pythonと同じ仕組み)
+-- フォーマッタによって、ブロックは自動的にレイアウトに変換される
 {-
-Bool    -- True or False
-Char    -- 文字型
-String  -- 文字列型 (= [Char])
-Int     -- 固定長整数 (最低 30 bits 以上)
-Integer -- 多倍長整数 (any bits)
-Float   -- 単精度浮動小数点数 (32 bits)
-Double  -- 倍精度浮動小数点数 (64 bits)
+{- レイアウト規則 (オフサイドルール) -}
+複数の式のインデントを揃えることにより、
+それらの式が同じブロックに属することを示す規則のこと
 
-[Int]       -- Intのリスト
-[Char]      -- Charのリスト (= String)
-(Int, Char) -- IntとCharのタプル
-
-Int -> Int           -- Intを受け取り、Intを返す関数型
--- 以下がカリー関数
-Int -> Int -> Double -- Intを受け取り、Intを受け取り、Doubleを返す関数型
-
-a   -- 任意の型
-[a] -- 任意の型のリスト
+インデントの位置は、最初の式の位置で決定される
+(自動でフォーマットされる場合は、気にする必要はない)
 -}
+layoutPattern :: IO ()
+layoutPattern = do
+  putStrLn "morning"
+  putStrLn "afternoon"
+  putStrLn "night"
 
 -- 変数
 {-
-Haskellの変数は不変 (immutable) である。
-そのため、代入ではなく束縛 (binding) と呼ばれる。
-最初の文字は小文字でなければならない。
+変数の型推論は自動で行われる。
+変数に価を結び付けることを、変数の束縛 (binding) という。
 -}
 variable :: IO ()
 variable = do
-  let x :: Int
-      y :: Int
-      x = 123
-      y = 456
-  putStrLn "Variable sample"
-  print (x + y)
+  let val :: Int
+      val = 123 -- 変数 val に値 123 を束縛
+  print val
 
--- 数値
-numberPattern :: IO ()
-numberPattern = do
-  let decNum = 123 -- 10進数
-      octNum = 0o123 -- 8進数
-      hexNum = 0x123 -- 16進数
-      floatNum = 1.23 -- 単精度浮動小数点数
-      floatNum2 = 1.23e10 -- 単精度浮動小数点数 (指数表現)
-   in do
-        putStrLn "Number pattern sample"
-        print decNum
-        print octNum
-        print hexNum
-        print floatNum
-        print floatNum2
+-- 関数
+{-
+- 関数定義は、一般に以下のように書く
+関数名 引数1 ... 引数n = 式
+- 関数適用
+関数名 引数1 ... 引数n
+-}
 
--- 文字
-charPattern :: IO ()
-charPattern = do
-  let char1 = 'a' -- 半角英数字記号
-      char2 = 'あ' -- Unicode文字
-      char3 = '\x3042' -- Unicode文字 (あ)
-   in do
-        putStrLn "Character pattern sample"
-        print char1
-        print char2
-        print char3
+add :: (Num a) => a -> a -> a
+add x y = x + y
 
--- 文字列
-stringPattern :: IO ()
-stringPattern = do
-  let str :: String
-      -- 文字列を複数行に分割できる
-      str =
-        "Hello, \
-        \World!"
-   in do
-        putStrLn "String pattern sample"
-        print str
+printAdd :: IO ()
+printAdd =
+  print (add 1 2)
 
--- リスト
-listPattern :: IO ()
-listPattern = do
-  putStrLn "List pattern sample"
-  let lst1 = [1, 2, 3] -- 基本のパターン
-      lst2 = [1 .. 3] -- = [1, 2, 3] (範囲指定)
-      lst3 = [3, 2 .. 1] -- = [3, 2, 1] (範囲指定)
-      lst4 = [1, 3 .. 9] -- = [1, 3, 5, 7, 9] (範囲指定 + ステップ指定)
-      lst5 = ['a', 'b', 'c'] -- 基本のパターン
-      lst6 = ['a' .. 'c'] -- = ['a', 'b', 'c'] (範囲指定)
-      elm1 = [1, 2, 3, 4] !! 2 -- リストの要素にアクセス (0始まり)
-  print lst1
-  print lst2
-  print lst3
-  print lst4
-  print lst5
-  print lst6
-  print elm1
+-- 識別子
+{-
+{- 変数識別子 (variable identifier) -}
+- 変数識別子は小文字で始まる
+- 用途: 変数、関数、型変数
+{- 構成子識別子 (constructor identifier) -}
+- 構成子識別子は大文字で始まる
+- 用途: データ構成子、型構成子、型クラス、モジュール
+-}
+
+-- 多相型 (polymorphic type)
+{-
+JavaやC++のジェネリクスに相当する
+{-具体例-}
+fst関数 (組の第一要素を取り出す関数)
+型としては、以下のようになっている
+- a, b は型変数 (type variable) と呼ばれ、任意の型を表す
+fst :: (a, b) -> a
+
+実際の利用例
+fst (1, 'a') -- output: 1
+fst (True, "hello") -- output: True
+-}
+
+-- データ型
+{-
+Bool ... 論理型
+ex) True, False
+
+Int ... 固定長整数型
+ex) 123, 0o12 0x1a
+
+Integer ... 多倍長整数型
+ex) 132, 0o12, 0x1a
+
+Float ... 単精度浮動小数点型
+ex) 123, 0o12, 0x1a, 3.14. 1.23E-10
+
+Double ... 倍精度浮動小数点型
+ex) 123, 0o12, 0x1a, 3.14. 1.23E-10
+
+Char ... 文字型
+ex) 'a', 'あ', '\n', '\x3042'
+
+String ... 文字列型 ([Char]のシノニム)
+ex1) "hello", "こんにちは\n"
+ex2) 以下のようにバックスラッシュで文字列を分割できる (文字列としては連結される)
+"Hello, \
+\World"
+[Char] のシノニムなので 、 リストの操作がそのまま使える
+['h', 'e', 'l', 'l', 'o'] <=同値=> "hello"
+ex) head "hello" ... 'h'
+    tail "hello" ... "ello"
+    length "hello" ... 5
+
+(a1, ..., an) ... タブル型 (順序はある)
+型の違うものを複数まとめて扱う
+ex) (1, 2), (True, "hello", 3.14)
+要素が1つのタプルは存在しない (要素が1つならその要素そのものになる)
+ex) (123) ... Int型
+
+() ... ユニット型 (何でもない型)
+
+[a] ... リスト型
+同じ型のものを複数まとめて扱う
+ex) [1, 2, 3], ["hello", "world"], []
+
+Maybe a ... Maybe型 (Option型に相当)
+Just a ... aという値が存在する
+Nothing ... 値がないことを表す
+ex) Just 123, Nothing
+-}
+
+-- 論理型
+{-
+not x ... xの否定
+x && y ... xかつy
+x || y ... xまたはy
+
+{- 値の透過性 -}
+※Haskellでは、参照の透過性は扱わない。
+ある式を、その式と同じ値を持つ別の式に置き換えても、
+プログラムの意味が変わらないことを指す。 (値でしか扱わないため)
+
+x == y ... xとyが等しい (等価)
+x /= y ... xとyが等しくない (非等価)
+※非等値を表現する記法が、!=ではなく、/=であることに注意
+x > y ... xはyより大きい
+x < y ... xはyより小さい
+x >= y ... xはy以上
+x <= y ... xはy以下
+-}

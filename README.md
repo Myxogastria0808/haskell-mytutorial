@@ -101,4 +101,8 @@ stack test
 
 - basis
 
+http://walk.northcol.org/haskell/
+
+- sample
+
 https://www.tohoho-web.com/ex/haskell.html#types
