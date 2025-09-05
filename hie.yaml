@@ -1,4 +1,4 @@
 cradle:
   stack:
-    - path: "./src/Main.hs"
-      component: "haskell-mytutorial:exe:tutorial"
+    - path: "./src"
+      component: "tutorial:exe:tutorial"
