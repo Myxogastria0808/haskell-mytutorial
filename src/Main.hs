@@ -1,8 +1,45 @@
 module Main (main) where
 
-import Base (base, helloWorld, layoutPattern, patternPattern, printAdd, variable)
+import Base
+  ( base,
+    helloWorld,
+    layoutPattern,
+  )
 import DataType (dataType)
-import Formula (casePattern, formula, guardPattern, ifPattern)
+import Formula
+  ( casePattern,
+    formula,
+    guardPattern,
+    ifPattern,
+  )
+import Function
+  ( function,
+    printAdd,
+    printDouble,
+    printEvenOdd,
+    printFactorial,
+    printFibonacci,
+    printFunctionComposition,
+    printLambdaAdd,
+    printMap,
+    printPower,
+    printPowerWithGuard,
+    printTwice,
+  )
+import List
+  ( defineList,
+    list,
+    printOriginalMap,
+  )
+import Operator
+  ( operator,
+    printOriginalOperator,
+  )
+import Variable
+  ( patternPattern,
+    variable,
+    variablePattern,
+  )
 
 {-
 参考サイト
@@ -15,13 +52,34 @@ main = do
   base
   helloWorld
   layoutPattern
-  variable
+  -- Variable
   patternPattern
-  printAdd
+  variable
+  variablePattern
   -- DataType
   dataType
   -- Formula
-  formula
   casePattern
+  formula
   guardPattern
   ifPattern
+  -- Function
+  function
+  printAdd
+  printFibonacci
+  printEvenOdd
+  printFactorial
+  printPower
+  printPowerWithGuard
+  printLambdaAdd
+  printDouble
+  printMap
+  printTwice
+  printFunctionComposition
+  -- Operator
+  operator
+  printOriginalOperator
+  -- List
+  list
+  defineList
+  printOriginalMap

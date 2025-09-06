@@ -6,5 +6,8 @@
   },
   "haskell.manageHLS": "PATH",
   "haskell.plugin.semanticTokens.globalOn": true,
-  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "cSpell.words": [
+    "mult"
+  ]
 }

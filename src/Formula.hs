@@ -1,5 +1,6 @@
 module Formula (formula, casePattern, guardPattern, ifPattern, letArea, whereArea) where
 
+-- 標準で定義されている pi を隠すおまじない
 import Prelude hiding (pi)
 
 formula :: IO ()
@@ -17,7 +18,8 @@ case 式 of
 
 - マッチしたパターンに対応する式がcase式全体の値になる
 
-※ 上から順にパターンに当てはまるかチェックされるので、パターンの順番には意味がある。
+※ 上から順にパターンに当てはまるかチェックされるので、パターンの順番には意味があり、
+  上から順にマッチングが試みられる。
 従って、以下のようなcase式は、意味がない (パターン1が常にマッチするため)
 case 式 of
   _ -> 式1
