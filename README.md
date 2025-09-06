@@ -1,5 +1,9 @@
 # tutorial
 
+## 参考サイト
+
+### http://walk.northcol.org/haskell/
+
 ## Setup
 
 0. set `flake.nix` and `.envrc`
