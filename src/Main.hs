@@ -18,10 +18,10 @@ main = do
   variable
   patternPattern
   printAdd
+  -- DataType
+  dataType
   -- Formula
   formula
   casePattern
   guardPattern
   ifPattern
-  -- DataType
-  dataType
