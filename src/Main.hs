@@ -1,5 +1,16 @@
 module Main (main) where
 
+import ADT
+  ( adt,
+    printArea,
+    printDigitString,
+    printHoliday,
+    printPersonTaro,
+    printPersonTaroJiro,
+    printRatio,
+    printSynonym,
+    printTree,
+  )
 import Base
   ( base,
     helloWorld,
@@ -29,11 +40,18 @@ import Function
 import List
   ( defineList,
     list,
+    printListFold,
+    printNumberSequence,
     printOriginalMap,
+    printQsort,
   )
 import Operator
   ( operator,
     printOriginalOperator,
+  )
+import Planet (planet, printPlanet)
+import TypeClass
+  ( typeClass,
   )
 import Variable
   ( patternPattern,
@@ -83,3 +101,21 @@ main = do
   list
   defineList
   printOriginalMap
+  printListFold
+  printNumberSequence
+  printQsort
+  -- ADT
+  adt
+  printArea
+  printHoliday
+  printTree
+  printPersonTaro
+  printPersonTaroJiro
+  printSynonym
+  printDigitString
+  printRatio
+  -- TypeClass
+  typeClass
+  -- Planet
+  planet
+  printPlanet
