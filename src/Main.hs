@@ -1,3 +1,8 @@
+{-
+module Main (main) where が省略されたファイルを
+Mainモジュールとするので、Mainモジュールでは、
+module Main (main) whereと書かなくても良い
+-}
 module Main (main) where
 
 import ADT
@@ -47,6 +52,12 @@ import List
     printNumberSequence,
     printOriginalMap,
     printQsort,
+  )
+import Module
+  ( Area (CircleArea),
+    Shape (..),
+    moduleFunc,
+    printSubModule,
   )
 import Operator
   ( operator,
@@ -134,3 +145,11 @@ main = do
   -- Planet
   planet
   printPlanet
+  -- Module
+  moduleFunc
+  printSubModule
+  print $ CircleArea 10
+  -- RectangleAreaはエクスポートされていないのでエラーになる
+  -- print $ RectangleArea 10 20
+  print $ Circle 10
+  print $ Rectangle 10 20
