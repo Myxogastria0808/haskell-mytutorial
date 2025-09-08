@@ -37,6 +37,9 @@ import Function
     printPowerWithGuard,
     printTwice,
   )
+import Kind
+  ( kind,
+  )
 import List
   ( defineList,
     list,
@@ -51,7 +54,12 @@ import Operator
   )
 import Planet (planet, printPlanet)
 import TypeClass
-  ( typeClass,
+  ( printAddSample,
+    printHuman,
+    printPoint1D,
+    printPoint2D,
+    printPoint3D,
+    typeClass,
   )
 import Variable
   ( patternPattern,
@@ -116,6 +124,13 @@ main = do
   printRatio
   -- TypeClass
   typeClass
+  printAddSample
+  printPoint2D
+  printPoint1D
+  printPoint3D
+  printHuman
+  -- Kind
+  kind
   -- Planet
   planet
   printPlanet
