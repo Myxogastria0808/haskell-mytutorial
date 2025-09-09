@@ -42,9 +42,7 @@ import Function
     printPowerWithGuard,
     printTwice,
   )
-import Kind
-  ( kind,
-  )
+import LazyEvaluation (lazyEvaluation)
 import List
   ( defineList,
     list,
@@ -140,8 +138,6 @@ main = do
   printPoint1D
   printPoint3D
   printHuman
-  -- Kind
-  kind
   -- Planet
   planet
   printPlanet
@@ -153,3 +149,5 @@ main = do
   -- print $ RectangleArea 10 20
   print $ Circle 10
   print $ Rectangle 10 20
+  -- Lazy Evaluation
+  lazyEvaluation
