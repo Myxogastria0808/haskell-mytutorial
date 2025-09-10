@@ -147,7 +147,7 @@ printSynonym = do
 -- newtype 宣言
 -- データ構成子数 1、フィールド数 1 のみ許される data宣言
 -- newtype 宣言で定義された型は、元の型と区別されるが、
--- 元の型と同じん内部ん表現で扱われる。
+-- 元の型と同じ内部表現で扱われる。
 -- ex) Age型を定義する
 newtype DigitString = DigitStr String
   deriving (Show)
