@@ -1,0 +1,11 @@
+{
+  "[haskell]": {
+    "editor.defaultFormatter": "haskell.haskell",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "haskell.manageHLS": "PATH",
+  "haskell.serverExecutablePath": "haskell-language-server",
+  "haskell.plugin.semanticTokens.globalOn": true,
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
+}
