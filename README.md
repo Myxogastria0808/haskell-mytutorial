@@ -23,7 +23,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        haskellPackages = with pkgs.haskell.packages.ghc9102; [
+        ghcVersion = "ghc9103";
+        haskellPackages = with pkgs.haskell.packages.${ghcVersion}; [
           ghc
           haskell-language-server
           implicit-hie
@@ -63,6 +64,7 @@ direnv allow
     "editor.formatOnPaste": true
   },
   "haskell.manageHLS": "PATH",
+  "haskell.serverExecutablePath": "haskell-language-server",
   "haskell.plugin.semanticTokens.globalOn": true,
   "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
 }
@@ -83,6 +85,30 @@ stack new <package-name> simple --bare
 # Haskell
 .stack-work/
 *~
+```
+
+5. update `stack.yaml`
+
+add under the description
+
+```yaml
+nix:
+  enable: true
+  packages: []
+```
+
+example (`stack.yaml`)
+
+```yaml
+snapshot:
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/24/8.yaml
+
+packages:
+- .
+
+nix:
+  enable: true
+  packages: []
 ```
 
 5. create `hie.yaml`
