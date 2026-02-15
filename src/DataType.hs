@@ -4,6 +4,8 @@ dataType :: IO ()
 dataType = putStrLn "-- DataType --"
 
 -- データ型
+-- とても参考になる型の資料
+-- https://zenn.dev/airiswim/articles/90456e4768ca03
 {-
 Bool ... 論理型
 ex) True, False
@@ -70,4 +72,25 @@ x > y ... xはyより大きい
 x < y ... xはyより小さい
 x >= y ... xはy以上
 x <= y ... xはy以下
+-}
+
+-- GhCi
+{-
+`ghci`コマンドで、Haskellの対話環境を起動できる。
+以下の主要なGHCiコマンド一覧を示す。
+：t <式> ... 指定した式の型を表示 (:t map)
+：i <識別子> ... 関数•型•クラスの詳細情報を表示 (:i Num)
+:k <型> ... 型のカインドを表示 (:k Maybe)
+:browse <モジュール内の関数や型を一覧表示> ... モジュール内の関数や型を一覧表示 (:browse Data.List)
+:doc <識別子> ... GHCi 9.0以降で関数のソキュメンを表示 (:doc map)
+-}
+
+-- カインド
+{-
+カインドは、型の型を表す概念である。
+GHCiでのカインド表記は以下の通りである。
+\* または Type ... 具体的な型 (型引数を取らない完全な型 (Int, Bool, Char)
+\* -> * ... 型引数を1つ取る型コンストラクタ (Maybe, [] )
+\* -> * -> * ... 型引数を2つ取る型コンストラクタ (Either, (,) )
+\* -> Constraint ... 型クラス (型引数を1つ取り、制約を返す) (Eq, Show, Ord)
 -}

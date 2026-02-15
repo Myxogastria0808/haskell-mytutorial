@@ -1,3 +1,5 @@
+{-# LANGUAGE InstanceSigs #-}
+
 module TypeClass
   ( typeClass,
     printAddSample,
@@ -95,6 +97,7 @@ data Point2D = Position2D Double Double
 
 -- Eqクラスのインスタンス宣言
 instance Eq Point2D where
+  (==) :: Point2D -> Point2D -> Bool
   (Position2D x y) == (Position2D x' y') = (x == x') && (y == y')
 
 printPoint2D :: IO ()
@@ -141,10 +144,12 @@ data Point1D = Position1D Double
 -- それぞれの型クラスのMINIMALを満たすように実装する。
 -- Eqクラスのインスタンス宣言
 instance Eq Point1D where
+  (==) :: Point1D -> Point1D -> Bool
   (Position1D x) == (Position1D x') = x == x'
 
 -- Ordクラスのインスタンス宣言
 instance Ord Point1D where
+  compare :: Point1D -> Point1D -> Ordering
   compare (Position1D x) (Position1D x')
     | x < x' = LT
     | x == x' = EQ

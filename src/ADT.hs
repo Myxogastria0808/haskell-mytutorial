@@ -8,6 +8,7 @@ module ADT
     printSynonym,
     printDigitString,
     printRatio,
+    printDeclaration,
   )
 where
 
@@ -22,8 +23,11 @@ adt = putStrLn "-- ADT --"
 data 型構成子 = データ構成子 ...
 
 {- 直積型 -}
+直積型とは、複数の値を同時に持つ型のことである。
 data 型構成子 = データ構成子1 データ構成子2 ... データ構成子n
+
 {- 直和型 -}
+直和型とは、複数の型の選択肢のうち、いずれか一つを持つ型のことである。
 data 型構成子 = データ構成子1 | データ構成子2 | ... | データ構成子n
 -}
 -- ex) 図形の型を定義する (直積型)
@@ -124,6 +128,11 @@ printPersonTaroJiro = do
 -- ex) IntList型を定義する
 type IntList = [Int]
 
+{-
+Rustで記述した場合の以下とおおよそ同じである。
+type IntList = Vec<i32>;
+-}
+
 -- 以下のように使うことができる
 sumIntList :: IntList -> Int
 sumIntList xs = sum xs
@@ -145,12 +154,19 @@ printSynonym = do
   print $ "Pair2: " ++ showPair pair2
 
 -- newtype 宣言
--- データ構成子数 1、フィールド数 1 のみ許される data宣言
--- newtype 宣言で定義された型は、元の型と区別されるが、
--- 元の型と同じ内部表現で扱われる。
+{-
+データ構成子数 1、フィールド数 1 のみ許される data宣言
+newtype 宣言で定義された型は、元の型と区別されるが、
+元の型と同じ内部表現で扱われる。
+-}
 -- ex) Age型を定義する
 newtype DigitString = DigitStr String
   deriving (Show)
+
+{-
+Rustで記述した場合の以下とおおよそ同じである。
+struct DigitString(String);
+-}
 
 atoi :: DigitString -> Int
 atoi (DigitStr xs) = read xs :: Int
@@ -161,7 +177,7 @@ printDigitString = do
   print $ "Int: " ++ show (atoi ds)
 
 -- 中置データ構成子
--- デター構成子には、 : で始まる演算子を使うことができる
+-- データ構成子には、 : で始まる演算子を使うことができる
 -- ex) 有理数型を定義する
 data Ratio = Integer :/ Integer deriving (Show)
 
@@ -171,6 +187,47 @@ ratioToFloat (x :/ y) = fromInteger x / fromInteger y
 printRatio :: IO ()
 printRatio = do
   print $ ratioToFloat (3 :/ 4) -- output: 0.75
+
+{-
+{-data宣言 と newtype宣言の稚違い-}
+{-data宣言-}
+ランタイムでもラッパーが存在し、ポインタ追跡が必要らしい
+柔軟な代わりに、ゼロコスト抽象化ができないので、オーバーヘッドがある。
+
+{-newtype宣言-}
+コンパイル時のみ存在し、ランタイムでは中身の型と同一の表現になる。
+つまり、ゼロコスト抽象化ガされているので、オーバーヘッドがない。
+-}
+
+{-newtype宣言 と 型シノニム(type)の違い-}
+{-
+{-newtype宣言-}
+
+newtype宣言では、コンパイラが元の型と異なる型として解釈する。
+従って、実質 Int 同士の足し算であっても、
+myNewTypeIntIntAddr a  b = a + b
+という風に掛くことはできず、以下のように書かなければならない。
+-}
+newtype MyNewTypeInt = MyNewTypeInt Int
+
+myNewTypeIntIntAddr :: Int -> MyNewTypeInt -> Int
+myNewTypeIntIntAddr a (MyNewTypeInt b) = a + b
+
+{-
+{-型シノニム-}
+
+型シノニムは、コンパイラが元の型と全く同じ型として解釈する。
+従って、以下のような記述が可能である。
+-}
+type MyInt = Int
+
+myIntIntAddr :: Int -> MyInt -> Int
+myIntIntAddr a b = a + b
+
+printDeclaration :: IO ()
+printDeclaration = do
+  print $ myNewTypeIntIntAddr 1 (MyNewTypeInt 1)
+  print $ myIntIntAddr 1 1
 
 {-
 {- 参考 -}

@@ -8,6 +8,7 @@ module Main (main) where
 import ADT
   ( adt,
     printArea,
+    printDeclaration,
     printDigitString,
     printHoliday,
     printPersonTaro,
@@ -131,6 +132,7 @@ main = do
   printSynonym
   printDigitString
   printRatio
+  printDeclaration
   -- TypeClass
   typeClass
   printAddSample

@@ -35,6 +35,7 @@ getValueFn defaultValue maybeTypeValue =
 
 casePattern :: IO ()
 casePattern = do
+  -- 第1引数はデフォルト値、第2引数はMaybe型の値
   print (getValueFn (123 :: Int) Nothing) -- output: 123
   print (getValueFn (123 :: Int) (Just 456)) -- output: 456
 
@@ -92,7 +93,7 @@ let 宣言1
     宣言n
   in 式
 
-宣言iで定義した変数または関数は、変数i+1以降と式にのみスコープを持つ。
+`宣言i`で定義した変数または関数は、`宣言i+1`以降と式にのみスコープを持つ。
 そして、式がこのlet式全体の値になる。
 -}
 letArea :: (Fractional a) => a -> a
@@ -101,8 +102,9 @@ letArea r =
       square x = x * x
    in pi * square r
 
--- where節 (letS式とは別にwhere節もある)
+-- where節 (let式とは別にwhere節もある)
 -- 変数や補助関数を局所的に定義する
+-- 式を先に定義するか、後に定義するかの違い
 -- ※以下、let式の例と同じ処理を書いている。
 whereArea :: (Fractional a) => a -> a
 whereArea r = pi * square r

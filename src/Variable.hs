@@ -11,7 +11,7 @@ variable = putStrLn "-- Variable --"
 -- 変数
 {-
 変数の型推論は自動で行われる。
-変数に価を結び付けることを、変数の束縛 (binding) という。
+変数に値を結び付けることを、変数の束縛 (binding) という。
 ※Haskellには、代入の概念はない (変数は不変)
 -}
 variablePattern :: IO ()

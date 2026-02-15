@@ -55,6 +55,7 @@ printAdd = do
   -- add 第1引数 $ 第2引数 <- このように使う
   print (add (3 :: Int) $ add (1 :: Int) $ (2 :: Int) * (2 :: Int))
   -- これは、以下と等しい
+  -- ↓ 下記の式を見ると明らかであるが、`$`は`*`よりも優先されるため、`$`の右側の式全体が第2引数になる。
   print (add (3 :: Int) (add (1 :: Int) ((2 :: Int) * (2 :: Int))))
 
 -- 再帰関数
@@ -65,6 +66,15 @@ fibonacci x =
   if x <= 1
     then x
     else fibonacci (x - 1) + fibonacci (x - 2)
+
+-- 以下のように、case式を利用して書くこともできる
+{-
+fibonacci' :: (Ord t, Num t) => t -> t
+fibonacci' x =
+  case x <= 1 of
+    True -> x
+    False -> fibonacci' (x - 1) + fibonacci' (x - 2)
+-}
 
 printFibonacci :: IO ()
 printFibonacci = do
@@ -128,12 +138,25 @@ printPowerWithGuard = do
 
 始めの\は、ラムダ計算の λ を表す。
 -}
+-- 以下の関数式は、関数と本質的に等価であり、
+-- むしろ理論の面から見れば、関数式の方が関数定義よりも基本的な概念である。
 lambdaAdd :: Integer -> Integer -> Integer
 lambdaAdd = \x y -> x + y
+
+-- 以下のような表現でも同じ意味になる。
+-- カリー化の表現をより明示的に記述できる点において、こちらの方がわかりやすいかもしれない。
+lambdaAdd' :: Integer -> Integer -> Integer
+lambdaAdd' = \x -> \y -> x + y
+
+-- 関数で記述した場合は、以下の通りである。
+functionAdd :: Integer -> Integer -> Integer
+functionAdd x y = x + y
 
 printLambdaAdd :: IO ()
 printLambdaAdd = do
   print (lambdaAdd (1 :: Integer) (2 :: Integer)) -- output: 3
+  print (lambdaAdd' (1 :: Integer) (2 :: Integer)) -- output: 3
+  print (functionAdd (1 :: Integer) (2 :: Integer)) -- output: 3
 
 -- 関数の部分適用 (partial application)
 -- mult関数のように部分適用に利用できる関数を
@@ -149,6 +172,10 @@ mult' (x, y) = x * y
 -- double関数は、mult関数を部分適用している。
 double :: Int -> Int
 double = mult 2
+
+-- わかりやすく表現すると、以下のように記述できる。
+double' :: Int -> Int
+double' x = mult 2 x
 
 {-
 {-関数適用の結合-}
@@ -170,6 +197,7 @@ printDouble :: IO ()
 printDouble = do
   print (double (3 :: Int)) -- output: 6
   print (mult' (2 :: Int, 3 :: Int)) -- output: 6
+  print (double' (3 :: Int)) -- output: 6
 
 -- 高階関数
 -- 関数を引数に取ったり、関数を返り値にしたりする関数
@@ -179,7 +207,7 @@ square x = x * x
 
 printMap :: IO ()
 printMap = do
-  -- ラムダ抽象のパターン
+  -- 関数式のパターン
   print $ map (\x -> x * 2) ([1, 2, 3] :: [Int]) -- output: [2,4,6]
   -- 既存関数のパターン
   print $ map square ([1, 2, 3] :: [Int])
