@@ -1,9 +1,5 @@
 # tutorial
 
-## 参考サイト
-
-### http://walk.northcol.org/haskell/
-
 ## Setup
 
 0. set `flake.nix` and `.envrc`
@@ -104,7 +100,7 @@ snapshot:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/24/8.yaml
 
 packages:
-- .
+  - .
 
 nix:
   enable: true
@@ -112,7 +108,6 @@ nix:
 ```
 
 5. create `hie.yaml`
-
 
 ```yaml
 cradle:
@@ -151,3 +146,7 @@ stack run <package-name>:exe:<package-name>
 ```sh
 stack test
 ```
+
+## References
+
+### http://walk.northcol.org/haskell/
